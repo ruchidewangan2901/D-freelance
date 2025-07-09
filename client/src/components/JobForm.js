@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "./Navbar"; // Ensure this path is correct
+import Navbar from "./Navbar";
+import { postJob } from "../api"; // ✅ Clean and reusable
 
 const JobForm = ({ onJobPosted }) => {
   const [formData, setFormData] = useState({
@@ -19,33 +20,24 @@ const JobForm = ({ onJobPosted }) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5001/api/jobs", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const job = await postJob(formData); // ✅ Use helper function
+      if (onJobPosted) onJobPosted(job);
 
-      if (response.ok) {
-        const job = await response.json();
-        if (onJobPosted) onJobPosted(job);
-        setFormData({ title: "", description: "", budget: "" });
-        alert("Job posted successfully!");
-        navigate("/jobs");
-      } else {
-        const errorText = await response.text();
-        console.error("Backend error:", errorText);
-        alert("Error posting job: " + errorText);
-      }
+      setFormData({ title: "", description: "", budget: "" });
+      alert("✅ Job posted successfully!");
+      navigate("/jobs");
     } catch (error) {
-      console.error("Failed to connect to server:", error);
-      alert("Failed to connect to server.");
+      console.error("❌ Error posting job:", error.message);
+      alert("❌ Failed to post job: " + error.message);
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center px-4 py-12">
       <div className="bg-white dark:bg-gray-800 py-16 px-10 rounded-lg shadow-md w-full max-w-xl mx-auto min-h-[600px] flex flex-col justify-between">
-        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800 dark:text-white">Post a Job</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-center text-gray-800 dark:text-white">
+          Post a Job
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-6 flex-grow">
           <input
             type="text"

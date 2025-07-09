@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import { fetchJobs } from "../api"; // ✅ import centralized API
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/jobs")
-      .then((res) => res.json())
+    fetchJobs()
       .then((data) => setJobs(data))
-      .catch((err) => console.error("Error fetching jobs:", err));
+      .catch((err) => console.error("❌ Error fetching jobs:", err));
   }, []);
 
   return (

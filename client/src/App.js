@@ -21,16 +21,61 @@ function App() {
   });
 
   // Sync dark mode class with document
-  useEffect(() => {
-    const html = document.documentElement;
-    if (darkMode && !isLanding) {
+  // useEffect(() => {
+  //   const html = document.documentElement;
+  //   if (darkMode && !isLanding) {
+  //     html.classList.add("dark");
+  //     localStorage.setItem("theme", "dark");
+  //   } else {
+  //     html.classList.remove("dark");
+  //     localStorage.setItem("theme", "light");
+  //   }
+  // }, [darkMode, isLanding]);
+
+//   useEffect(() => {
+//   const html = document.documentElement;
+
+//   if (darkMode) {
+//     html.classList.add("dark");
+//     localStorage.setItem("theme", "dark");
+//   } else {
+//     html.classList.remove("dark");
+//     localStorage.setItem("theme", "light");
+//   }
+// }, [darkMode]); // ✅ remove isLanding from dependency list
+
+// useEffect(() => {
+//   const html = document.documentElement;
+
+//   if (location.pathname !== "/") {
+//     if (darkMode) {
+//       html.classList.add("dark");
+//       localStorage.setItem("theme", "dark");
+//     } else {
+//       html.classList.remove("dark");
+//       localStorage.setItem("theme", "light");
+//     }
+//   } else {
+//     // Always remove dark mode on landing
+//     html.classList.remove("dark");
+//   }
+// }, [darkMode, location.pathname]);
+
+useEffect(() => {
+  const html = document.documentElement;
+
+  if (location.pathname !== "/") {
+    if (darkMode) {
       html.classList.add("dark");
       localStorage.setItem("theme", "dark");
     } else {
       html.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
-  }, [darkMode, isLanding]);
+  } else {
+    html.classList.remove("dark");
+  }
+}, [darkMode, location.pathname]);
 
 
   return (
