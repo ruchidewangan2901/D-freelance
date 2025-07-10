@@ -1,4 +1,5 @@
-const BASE_URL = "https://afbc58f0-b840-49c7-b444-e7d204141355-00-1j544wznyi2cc.sisko.replit.dev"; // your backend
+const BASE_URL = "https://afbc58f0-b840-49c7-b444-e7d204141355-00-1j544wznyi2cc.sisko.replit.dev"; 
+
 
 export const fetchJobs = async () => {
   try {
